@@ -1,7 +1,8 @@
 /* CV world server: static files + a tiny WebSocket relay for multiplayer.
  *   WS   /ws         → players' positions / animations / chat, relayed to everyone at 10 Hz
  * Run: npm install && npm start   (PORT=3000 by default) */
-require("dotenv").config();
+/* always the .env next to this file, whatever directory it is started from (.env.example is only a template) */
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
