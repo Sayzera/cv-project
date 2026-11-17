@@ -158,6 +158,21 @@ setInterval(() => {
   });
 }, 15000);
 
+/* a port clash is the usual start-up failure: say so plainly (ws re-emits it on wss too) */
+function listenFailed(err) {
+  if (err && err.code === "EADDRINUSE") {
+    console.error(`HATA: ${PORT} portu başka bir uygulama tarafından kullanılıyor. .env dosyasında PORT= değerini değiştir.`);
+  } else if (err && err.code === "EACCES") {
+    console.error(`HATA: ${PORT} portunu açma izni yok (1024 altı portlar root ister). .env dosyasında PORT= değerini değiştir.`);
+  } else {
+    console.error("HATA: sunucu başlatılamadı:", err);
+  }
+  process.exit(1);
+}
+server.on("error", listenFailed);
+wss.on("error", listenFailed);
+
+console.log(`.env: ${fs.existsSync(path.join(ROOT, ".env")) ? "bulundu" : "YOK, varsayılanlar kullanılıyor"} · PORT=${PORT}`);
 server.listen(PORT, () => {
   console.log(`CV dünyası: http://localhost:${PORT}`);
 });
