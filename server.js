@@ -4,8 +4,11 @@
 /* always the .env next to this file, whatever directory it is started from (.env.example is only a template).
  * override: on a shared server the PM2 daemon may carry another app's PORT; this app's .env wins. */
 const inheritedPort = process.env.PORT;
+const inheritedNodeEnv = process.env.NODE_ENV;
 const dotenvResult = require("dotenv").config({ path: require("path").join(__dirname, ".env"), override: true });
 const envFile = (dotenvResult && dotenvResult.parsed) || null;
+/* …except NODE_ENV: PM2's --env production must not be turned back into the dev value from .env */
+if (inheritedNodeEnv) process.env.NODE_ENV = inheritedNodeEnv;
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
