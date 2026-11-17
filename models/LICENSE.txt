@@ -1,0 +1,13 @@
+village-kit.glb is built from the free "Medieval Village MegaKit [Standard]" by Quaternius
+(https://quaternius.com), released under CC0 1.0 Universal (public domain).
+Only a subset of the pieces is included; textures are resized (1024px, normals 512px) and WebP-encoded.
+
+character.glb is built from the free "Universal Animation Library [Standard]" by Quaternius
+(https://quaternius.com), CC0 1.0 Universal. It keeps the mannequin and 9 of its 43 animations
+(Idle, Walk, Jog, Sprint, Jump start/loop/land, Interact, Dance), resampled, plus Sword_Attack and
+Sword_Idle, Hit_Chest and Death01 copied as-is (constant channels collapsed).
+
+village-mv.glb is converted from "modular_village_collection.zip" (Modular Village, 155 OBJ pieces
+with one shared MTL): one node per piece, colours from the MTL, normals quantized. The countryside
+houses are assembled from these pieces in code. The archive shipped without a licence file; check
+it before publishing.

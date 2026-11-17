@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CV Dünyası</title>
+  <meta name="description" content="Karakterle gezilen 3B CV">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏰</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="world" data-world>
+    <div class="world__stage" data-stage></div>
+
+    <header class="hud">
+      <div class="hud__who">
+        <strong data-cv-name></strong>
+        <span data-cv-title></span>
+      </div>
+      <nav class="hud__nav" data-nav aria-label="Bölümler"></nav>
+      <div class="hud__actions">
+        <span class="hud__online" data-online title="Çevrimiçi oyuncular" hidden><i aria-hidden="true"></i><b data-online-n>1</b></span>
+        <button type="button" class="hud__btn" data-map-open title="Harita (M)">🗺️</button>
+        <button type="button" class="hud__btn" data-cv-open title="Klasik CV görünümü">📄 CV</button>
+        <a class="hud__btn is-download" data-cv-pdf href="#" download title="CV'yi PDF olarak indir" hidden>⬇ PDF</a>
+        <button type="button" class="hud__btn" data-help-open title="Kontroller">?</button>
+      </div>
+    </header>
+
+    <div class="abilities" data-abilities hidden>
+      <button type="button" class="ability" data-sprint aria-pressed="false" aria-label="Hızlı koşu (1)">
+        <span class="ability__icon" aria-hidden="true">⚡</span>
+        <kbd aria-hidden="true">1</kbd>
+        <span class="ability__tip" role="tooltip">
+          <strong>Hızlı koşu</strong><em>1</em>
+          <span>Karakter çok daha hızlı koşar, ayaklarının altında altın ışıltılar belirir. Tekrar bas: yürüyüşe dön.</span>
+          <b data-sprint-state>Kapalı</b>
+        </span>
+      </button>
+    </div>
+
+    <div class="plates" data-plates aria-hidden="true"></div>
+    <button type="button" class="minimap" data-minimap aria-label="Haritayı aç (M)" hidden><canvas></canvas><span>M</span></button>
+    <div class="overlay mapview" data-map role="dialog" aria-modal="true" aria-label="Harita" hidden>
+      <div class="mapview__box">
+        <header>
+          <h2>🗺️ Harita</h2>
+          <p>Bir eve tıkla: o bölüme git · boş bir yere tıkla: oraya ışınlan</p>
+          <button type="button" class="overlay__close" data-map-close aria-label="Kapat">✕</button>
+        </header>
+        <canvas></canvas>
+      </div>
+    </div>
+    <div class="chat" data-chat hidden>
+      <ol class="chat__log" data-chat-log aria-live="polite" aria-label="Sohbet"></ol>
+      <form class="chat__form" data-chat-form hidden>
+        <input type="text" data-chat-input maxlength="200" autocomplete="off" spellcheck="false" placeholder="Mesaj yaz, Enter ile gönder…" aria-label="Sohbet mesajı">
+      </form>
+      <button type="button" class="chat__open" data-chat-open aria-label="Sohbet (Enter)">💬</button>
+    </div>
+    <aside class="panel" data-panel hidden aria-live="polite"></aside>
+    <button type="button" class="prompt" data-prompt hidden></button>
+    <div class="walkhint" data-walkhint hidden></div>
+    <div class="stick" data-stick hidden aria-hidden="true"><i></i></div>
+    <div class="loading" data-loading><span></span><p>Dünya yükleniyor…</p></div>
+
+    <div class="intro" data-intro role="dialog" aria-modal="true" aria-label="Karşılama" hidden>
+      <div class="intro__box">
+        <div class="intro__sigil" aria-hidden="true">✦</div>
+        <div class="intro__lines" data-intro-lines aria-live="polite"></div>
+        <div class="intro__actions" data-intro-actions hidden>
+          <button type="button" class="intro__btn is-primary" data-intro-map>🗺️ Haritayı aç <kbd>M</kbd></button>
+          <button type="button" class="intro__btn" data-intro-close>Kendim keşfedeyim</button>
+        </div>
+        <p class="intro__skip" data-intro-skip>atlamak için tıkla</p>
+      </div>
+    </div>
+
+    <div class="overlay" data-help role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+      <div class="overlay__box">
+        <h2 id="help-title">🎮 Kontroller</h2>
+        <ul class="keys">
+          <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / oklar <span>Yürü</span></li>
+          <li><kbd>Shift</kbd> <span>Koş</span></li>
+          <li><kbd>1</kbd> <span>Hızlı koşu aç / kapat</span></li>
+          <li><kbd>Space</kbd> <span>Zıpla</span></li>
+          <li><kbd>E</kbd> <span>Kapıda: bölümü büyük oku</span></li>
+          <li><kbd>M</kbd> <span>Harita (tıkla: ışınlan)</span></li>
+          <li><kbd>Enter</kbd> <span>Sohbet</span></li>
+          <li>Fare sürükle <span>Kamerayı döndür</span></li>
+          <li>Tekerlek <span>Yakınlaş / uzaklaş</span></li>
+          <li>Dokunmatik <span>Parmak joystick, dokun: zıpla</span></li>
+        </ul>
+        <p>Bir evin arsasına adım at: o bölüm açılır.</p>
+        <label class="namefield">Adın (diğer oyuncular görür)
+          <input type="text" data-name-input maxlength="20" autocomplete="nickname" spellcheck="false">
+        </label>
+        <button type="button" class="hud__btn is-primary" data-help-close>Başla ▶</button>
+      </div>
+    </div>
+
+    <div class="overlay" data-cv role="dialog" aria-modal="true" aria-label="CV" hidden>
+      <div class="overlay__box overlay__box--cv">
+        <button type="button" class="overlay__close" data-cv-close aria-label="Kapat">✕</button>
+        <div data-cv-body></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="vendor/three/three.min.js"></script>
+  <script src="vendor/three/GLTFLoader.js"></script>
+  <script src="js/cv-data.js"></script>
+  <script src="js/world.js"></script>
+</body>
+</html>
