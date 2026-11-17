@@ -1,8 +1,11 @@
 /* CV world server: static files + a tiny WebSocket relay for multiplayer.
  *   WS   /ws         → players' positions / animations / chat, relayed to everyone at 10 Hz
  * Run: npm install && npm start   (PORT=3000 by default) */
-/* always the .env next to this file, whatever directory it is started from (.env.example is only a template) */
-require("dotenv").config({ path: require("path").join(__dirname, ".env") });
+/* always the .env next to this file, whatever directory it is started from (.env.example is only a template).
+ * override: on a shared server the PM2 daemon may carry another app's PORT; this app's .env wins. */
+const inheritedPort = process.env.PORT;
+const dotenvResult = require("dotenv").config({ path: require("path").join(__dirname, ".env"), override: true });
+const envFile = (dotenvResult && dotenvResult.parsed) || null;
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -173,7 +176,11 @@ function listenFailed(err) {
 server.on("error", listenFailed);
 wss.on("error", listenFailed);
 
-console.log(`.env: ${fs.existsSync(path.join(ROOT, ".env")) ? "bulundu" : "YOK, varsayılanlar kullanılıyor"} · PORT=${PORT}`);
+{
+  const from = envFile && envFile.PORT ? ".env" : inheritedPort ? "ortam değişkeni" : "varsayılan";
+  console.log(`.env: ${envFile ? "bulundu" : "YOK, varsayılanlar kullanılıyor"} · PORT=${PORT} (kaynak: ${from})`
+    + (envFile && envFile.PORT && inheritedPort && inheritedPort !== envFile.PORT ? ` · ortamdaki PORT=${inheritedPort} yok sayıldı` : ""));
+}
 server.listen(PORT, () => {
   console.log(`CV dünyası: http://localhost:${PORT}`);
 });

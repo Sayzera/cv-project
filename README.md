@@ -23,7 +23,7 @@ PM2 projeye bağımlılık olarak kurulu; sunucuda ayrıca global kurmana gerek 
 ```bash
 git clone <repo> cv-world && cd cv-world      # ya da dosyaları kopyala
 npm install --omit=dev
-cp .env.example .env                           # PORT'u ayarla (örn. 3000)
+cp .env.example .env && nano .env              # PORT= satırını DEĞİŞTİR (örn. 1071); şablonda 3000 yazar
 npm run pm2:start                              # production modunda başlat
 npx pm2 save && npx pm2 startup                # sunucu yeniden açılınca otomatik başlasın (çıkan komutu çalıştır)
 ```
